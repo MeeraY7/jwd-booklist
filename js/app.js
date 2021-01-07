@@ -5,74 +5,42 @@ const clearBtn = document.querySelector('.clear-books');
 const bookInput = document.querySelector('#book');
 const authInput = document.querySelector('#author');
 
-// Store book
-function storebookInLocalStorage(book) {
-  let books;
-  if (localStorage.getItem('books') === null) {
-    books = [];
-  } else {
-    books = JSON.parse(localStorage.getItem('books'));
-  }
-
-  books.push(book);
-
-  localStorage.setItem('books', JSON.stringify(books));
-
-  console.log('data added to local storage');
-}
-
 // Get books from local storage
 function getbooks() {
-  let books;
-  if (localStorage.getItem('books') === null) {
-    books = [];
-  } else {
-    books = JSON.parse(localStorage.getItem('books'));
-  }
-  // Generate book list from data in localstorage
-  // books.forEach((book) => {
+  // TODO:
+  // 1) Declare variable for books array
+
+  // 2) Get books out of localstorage and parse into JS array
+  // if localstorage is empty, assign books to empty array
+
+  let itemHTML = '';
+  // Generate book list HTML including data in localstorage
   books.map((book) => {
-    // Create li element
-    const li = document.createElement('li');
-    // Add class
-    li.className = 'collection-item';
-    // Create string literal from title and author
-    const textNode = `${book.title} by ${book.author}`;
-    // Create text node and append to li element
-    li.appendChild(document.createTextNode(textNode));
-    // Create new link element
-    const link = document.createElement('a');
-    // Add class
-    link.className = 'delete-item secondary-content';
-    // Add icon html
-    link.innerHTML = '<i class="fa fa-times"></i>';
-    // Append the link to the li
-    li.appendChild(link);
-    // Append li to ul
-    bookList.appendChild(li);
+    itemHTML += `
+      <li class="collection-item">
+        ${book.title} by ${book.author}
+        <a class="delete-item secondary-content"><i class="fa fa-times"></i></a>
+      </li>
+    `;
+    bookList.innerHTML = itemHTML;
   });
 
   console.log('data retrieved from local storage');
 }
 
-// Remove from local storage
-function removebookFromLocalStorage(bookItem) {
+// Store book
+function storebookInLocalStorage(book) {
+  // TODO:
+  // 1) Declare variable for books array
   let books;
-  if (localStorage.getItem('books') === null) {
-    books = [];
-  } else {
-    books = JSON.parse(localStorage.getItem('books'));
-  }
+  // 2) Get books out of localstorage and parse into JS array
+  // if localstorage is empty, assign books to empty array
 
-  books.forEach(function (book, index) {
-    if (bookItem.textContent === book) {
-      books.splice(index, 1);
-    }
-  });
+  // 3) Push our book onto array
 
-  localStorage.setItem('books', JSON.stringify(books));
+  // 4) Put new array back into localstorage (parse into string first)
 
-  console.log('data removed from local storage');
+  console.log('data added to local storage');
 }
 
 // Clear local storage
@@ -106,30 +74,14 @@ function addbook(e) {
     // Append li to ul
     bookList.appendChild(li);
 
-    // Store book in local storage
-    storebookInLocalStorage({
-      title: bookInput.value,
-      author: authInput.value,
-    });
+    // TODO: Store book in local storage
+    // Call storebookInLocalStorage function, passing in the JS Object with variables
 
     // Clear inputs
     bookInput.value = '';
     authInput.value = '';
     console.log('book added');
   }
-}
-
-// Remove book
-function removebook(e) {
-  if (e.target.parentElement.classList.contains('delete-item')) {
-    if (confirm('Are You Sure?')) {
-      e.target.parentElement.parentElement.remove();
-
-      // Remove book from local storage
-      removebookFromLocalStorage(e.target.parentElement.parentElement);
-    }
-  }
-  console.log('book removed');
 }
 
 // Clear books
